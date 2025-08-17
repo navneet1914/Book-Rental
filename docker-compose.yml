@@ -1,0 +1,68 @@
+# version: '3.8'
+
+# services:
+#   backend:
+#     build: ./backend
+#     ports:
+#       - '5000:5000'
+#     volumes:
+#       - ./backend:/app
+#     depends_on:
+#       - database  # Ensures the database starts first
+#     environment:
+#       - MONGO_URI=mongodb+srv://navneetsneh:Navneet%402002@cluster0.uxgkc.mongodb.net/Aggregated_Data
+#       - NODE_ENV=development
+
+#   frontend:
+#     build: ./frontend
+#     ports:
+#       - '3000:80'
+#     depends_on:
+#       - backend
+
+#   database:
+#     image: mongo:latest  # Use MongoDB's latest image
+#     ports:
+#       - '27017:27017'
+#     volumes:
+#       - mongo_data:/data/db  # Persistent storage for MongoDB
+
+# volumes:
+#   mongo_data:  # Named volume for MongoDB data persistence
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend  # Ensure there is a Dockerfile in the `./backend` directory
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - database  # Ensures the database starts first
+    environment:
+      - MONGO_URI=mongodb+srv://navneetsneh:Navneet%402002@cluster0.uxgkc.mongodb.net/Aggregated_Data  # Updated for internal Docker networking
+      - NODE_ENV=development
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend  # Ensure there is a Dockerfile in the `./frontend` directory
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+
+  database:
+    image: mongo:latest  # Use MongoDB's latest image
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db  # Persistent storage for MongoDB
+
+volumes:
+  mongo_data:  # Named volume for MongoDB data persistence
+
